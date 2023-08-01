@@ -1,37 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');
 
-
-.entireArrayWrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-
-}
-
 h1{
   text-align: center;
 }
 
-img {
-  height: 25vh;
-  max-width: 25vw;
-}
 
-.setWrap {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(177, 177, 177);
-  width: 30vw;
-  margin: 1vw;
-  padding-top: 3vh;
-}
-
-.name-text {
-  text-align: center;
-}
 
 .Modal {
   position: absolute;
@@ -39,12 +12,9 @@ img {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgb(255, 255, 255);
-  padding: 5vw;
   border: 3px dashed black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: 'Cabin', sans-serif;
+  
+ 
 }
 
 .Overlay {
@@ -59,10 +29,6 @@ img {
 .facts-list {
   font-size: larger;
   list-style:square;
-}
-
-.coatArmsImg {
-  height: 10vh;
 }
 
 .closeModalBtn{
