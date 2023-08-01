@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import Modal from 'react-modal';
 import styled from "styled-components";
+import { Dropdown} from './dropdown';
 
 Modal.setAppElement("#root")
 
 function App() {
-
+  const [sortBy, setSortBy] = useState("a-z");
   const [countries, setCountries] = useState([])
+  const [sortedCountries, setSortedCountries] = useState([])
   useEffect(() => {
   
     const fetchData = async () => {
@@ -18,10 +20,22 @@ function App() {
   fetchData();
 }, [])
 
+useEffect(()=>{
+  
+  sortBy === "a-z" ? setSortedCountries([...countries].sort((a, b) => (a.name?.common > b.name?.common) ? 1 : -1)) :
+   sortBy === "z-a" ? setSortedCountries([...countries].sort((a, b) => (a.name?.common < b.name?.common) ? 1 : -1)) :
+    sortBy === "populationAscending" ? setSortedCountries([...countries].sort((a, b) => (a.population > b.population) ? 1 : -1)) :
+    sortBy === "populationDescending" ? setSortedCountries([...countries].sort((a, b) => (a.population < b.population) ? 1 : -1)) :
+     sortBy === "sizeAscending"  ? setSortedCountries([...countries].sort((a, b) => (a.area > b.area) ? 1 : -1)) :
+     sortBy === "sizeDescending"  ? setSortedCountries([...countries].sort((a, b) => (a.area < b.area) ? 1 : -1)) : setSortedCountries([...countries].sort((a, b) => (a.name?.common > b.name?.common) ? 1 : -1))
+}, [sortBy])
+
+
+
 const [modalContent,SetModalContent] = useState({})
 const [modalIsOpen, setIsOpen] = useState(false);
 function openModal(index) {
-  SetModalContent(countries[index]);
+  SetModalContent(sortedCountries[index]);
   
   setIsOpen(true);
 }
@@ -41,7 +55,7 @@ function closeModal() {
       >
         <ModalWrap BgImg={modalContent?.coatOfArms?.png} >
           <h2>About {modalContent?.name?.common}</h2>
-          <ul className='facts-list'>
+          <ul>
             <li>Official Name: {modalContent?.name?.official}</li>
             <li>Capital City: {modalContent?.capital}</li>
             <li>Currency: { modalContent.currencies && modalContent?.currencies[Object?.keys(modalContent?.currencies)[0]]?.name} ({modalContent.currencies && modalContent?.currencies[Object?.keys(modalContent?.currencies)[0]]?.symbol})</li>
@@ -55,14 +69,14 @@ function closeModal() {
             <li>{modalContent?.name?.common } {modalContent?.landlocked ? "is": "is not"} landlocked.</li>
             <li>{modalContent?.name?.common } {modalContent?.unMember ? "is": "is not"} a member of the UN.</li>
             <li>{modalContent?.name?.common } {modalContent?.independent ? "is": "is not"} an independent country.</li>
-            {/* {modalContent?.coatOfArms?.png === undefined ? <li>Coat of arms: None</li>: <img className='coatArmsImg' src={modalContent?.coatOfArms?.png} alt="coat of arms" /> } */}
           </ul>
-          <button className='closeModalBtn' onClick={closeModal}>close</button>
+          <button onClick={closeModal}>close</button>
         </ModalWrap>
       </Modal>
-      <h1>COUNTRIES</h1>
+      <Title className='title'>COUNTRIES</Title>
+      <Dropdown setSort={setSortBy}/>
       <EntireArrayWrap>
-      {countries.map((country, index) => {
+      {sortedCountries.map((country, index) => {
         return (
           <SetWrap key={index} onClick={() => openModal(index)}    >
             <img src={country.flags.png} alt={country.name.common + " Flag"} />
@@ -77,7 +91,11 @@ function closeModal() {
 
 export default App;
 
+const Title = styled.h1`
+  text-align: center;
+  font-family: 'Rubik Dirt', cursive;
 
+`
 
 const EntireArrayWrap = styled.div`
     display: flex;
@@ -103,8 +121,6 @@ const SetWrap = styled.div`
     }
     
 `
-
-
 const ModalWrap = styled.div`
   height: 100%;
   padding: 5vw;
@@ -114,6 +130,21 @@ const ModalWrap = styled.div`
   flex-direction: column;
   align-items: center;
   font-family: 'Cabin', sans-serif;
+
+  ul {
+    font-size: larger;
+    list-style:square;
+  }
+
+  button {
+    font-size: x-large;
+    background-color: rgb(0, 174, 255);
+    border: 1px dotted black;
+    cursor: pointer;
+    font-family: 'Cabin', sans-serif;
+    border-radius: 5px;
+    padding: 1vh;
+  }
 
   &::after {
   content: "";
