@@ -7,9 +7,12 @@ import { Dropdown} from './dropdown';
 Modal.setAppElement("#root")
 
 function App() {
+  const [filteredCountries, setFilteredCountries] = useState([])
   const [sortBy, setSortBy] = useState("a-z");
-  const [countries, setCountries] = useState([])
-  const [sortedCountries, setSortedCountries] = useState([])
+  const [countries, setCountries] = useState([]);
+  const [sortedCountries, setSortedCountries] = useState(countries);
+  const [search, setSearch] = useState("");
+  console.log(search);
   useEffect(() => {
   
     const fetchData = async () => {
@@ -28,9 +31,14 @@ useEffect(()=>{
     sortBy === "populationDescending" ? setSortedCountries([...countries].sort((a, b) => (a.population < b.population) ? 1 : -1)) :
      sortBy === "sizeAscending"  ? setSortedCountries([...countries].sort((a, b) => (a.area > b.area) ? 1 : -1)) :
      sortBy === "sizeDescending"  ? setSortedCountries([...countries].sort((a, b) => (a.area < b.area) ? 1 : -1)) : setSortedCountries([...countries].sort((a, b) => (a.name?.common > b.name?.common) ? 1 : -1))
-}, [sortBy])
+}, [sortBy, countries]);
 
-
+useEffect(() => {
+  setFilteredCountries(countries.filter((country) => {
+    return country.name?.common.toLowerCase().includes(search.toLowerCase());
+  }));
+  search.length > 0 && setSortedCountries(filteredCountries);
+}, [search, countries, filteredCountries]);
 
 const [modalContent,SetModalContent] = useState({})
 const [modalIsOpen, setIsOpen] = useState(false);
@@ -74,7 +82,7 @@ function closeModal() {
         </ModalWrap>
       </Modal>
       <Title className='title'>COUNTRIES</Title>
-      <Dropdown setSort={setSortBy}/>
+      <Dropdown setSort={setSortBy} setSearch={setSearch} />
       <EntireArrayWrap>
       {sortedCountries.map((country, index) => {
         return (
