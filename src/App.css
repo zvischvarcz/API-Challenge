@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');
+
+
 .entireArrayWrap {
   display: flex;
   flex-wrap: wrap;
@@ -28,4 +31,44 @@ img {
 
 .name-text {
   text-align: center;
+}
+
+.Modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255);
+  padding: 5vw;
+  border: 3px dashed black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Cabin', sans-serif;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(32, 32, 32, 0.765);
+}
+
+.facts-list {
+  font-size: larger;
+  list-style:square;
+}
+
+.coatArmsImg {
+  height: 10vh;
+}
+
+.closeModalBtn{
+  font-size: x-large;
+  background-color: rgb(0, 174, 255);
+  border: 1px dotted black;
+  cursor: pointer;
+  font-family: 'Cabin', sans-serif;
 }
